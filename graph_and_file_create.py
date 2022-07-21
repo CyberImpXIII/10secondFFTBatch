@@ -1,7 +1,7 @@
 from asyncore import read, write
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.fftpack import fft, rfft, rfftfreq
+from scipy.fft import rfft, rfftfreq
 from scipy.io import wavfile  # get the api
 
 
