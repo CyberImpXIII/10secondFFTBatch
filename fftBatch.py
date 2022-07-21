@@ -6,7 +6,6 @@ import os
 print('Number of arguments:', len(sys.argv), 'arguments.')
 print('Argument List:', str(sys.argv))
 
-files = glob.glob('./*.wav')
 if glob.glob(sys.argv[1]):
     print('placing graph files and fft csv files in', sys.argv[1])
     output = sys.argv[1]
@@ -28,6 +27,8 @@ else:
     else:
         print('importing files from current directory')
         input = './'
+
+files = glob.glob(input + '*.wav')
 for file in files:
-    graph(file, output, input)
+    graph(file, file.replace('./', '').replace('.wav', ''), output, input)
 quit()
