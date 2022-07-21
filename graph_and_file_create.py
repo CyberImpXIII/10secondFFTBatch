@@ -1,15 +1,18 @@
 from asyncore import read, write
+import numpy as np
 import matplotlib.pyplot as plt
-from scipy.fftpack import fft
+from scipy.fftpack import fft, rfft, rfftfreq
 from scipy.io import wavfile  # get the api
 
 
 def graph(file, filename, output, input):
     print('graphing', file)
-    fs, data = wavfile.read(input + file)
-    a = data.T[0:data.size]
-    b = [(ele/2**8.)*2-1 for ele in a]
-    c = fft(b)
-    d = len(c)//2
-    plt.plot(abs(c[:(d-1)]), 'r')
+    rate, data = wavfile.read(input + file)
+    DURATION = data.shape[0] // rate
+    N = rate * DURATION
+    yf = rfft(data)
+    xf = rfftfreq(N, 1 / rate)
+
+    plt.plot(xf, np.abs(yf))
     plt.savefig(output + '/' + filename + '.png', bbox_inches='tight')
+    plt.show()
