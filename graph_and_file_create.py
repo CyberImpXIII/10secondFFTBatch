@@ -5,7 +5,7 @@ from scipy.fft import rfft, rfftfreq
 from scipy.io import wavfile  # get the api
 
 
-def graph(file, filename, output, input):
+def graph(file, filename, output, input, graphprint, csvprint):
     print('graphing', file)
     rate, data = wavfile.read(input + file)
     DURATION = data.shape[0] // rate
@@ -14,5 +14,8 @@ def graph(file, filename, output, input):
     xf = rfftfreq(N, 1 / rate)
 
     plt.plot(xf, np.abs(yf))
-    plt.savefig(output + '/' + filename + '.png', bbox_inches='tight')
-    plt.show()
+    if(graphprint):
+        plt.savefig(output + '/graph/' + filename +
+                    '.png', bbox_inches='tight')
+    if(csvprint):
+        np.savetxt(output + '/csv/' + filename + '.csv', yf)
