@@ -12,19 +12,21 @@ csvprint = True
 
 for argument in sys.argv:
     if("INPUT=" in argument.upper()):
-        if(argument.split('=')[1] == './' or argument.split('=')[1] == './input'):
+        if(argument.split('=')[1].strip('\"').strip('\'') == './' or argument.split('=')[1].strip('\"').strip('\'') == './input'):
             print('no need to include' + argument.split('=')
                   [1] + 'in your function call as it is supported by default')
-        input = argument.split('=')[1]
+        input = argument.split('=')[1].strip('\"').strip('\'')
     if("OUTPUT=" in argument.upper()):
         if(argument.split('=')[1] == './output'):
             print(
                 'no need to include ./output in your function call as it is supported by default')
-        output = argument.split('=')[1]
+        output = argument.split('=')[1].strip('\"').strip('\'')
     if('GRAPH=' in argument.upper()):
-        graphprint = argument.split('=')[1].lower() == 'true'
+        graphprint = argument.split('=')[1].lower().strip(
+            '\"').strip('\'') == 'true'
     if('CSV=' in argument.upper()):
-        csvprint = argument.split('=')[1].lower() == 'true'
+        csvprint = argument.split('=')[1].lower().strip(
+            '\"').strip('\'') == 'true'
 
 if glob.glob(output):
     if(graphprint == True & csvprint == True):
@@ -42,7 +44,7 @@ else:
     elif(csvprint == True):
         print('placing csv files in', output)
 
-    if(glob.glob('./output')[0] != './output'):
+    if(len(glob.glob('./output')) == 0):
         print('creating output')
         os.mkdir('./output')
     output = './output'
